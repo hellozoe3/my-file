@@ -1,0 +1,72 @@
+<view class="page safe-bottom">
+
+  <!-- ====== 空状态 ====== -->
+  <view wx:if="{{historyList.length === 0}}" class="empty-state">
+    <view class="empty-illustration">
+      <text class="empty-icon">📭</text>
+    </view>
+    <text class="empty-title">暂无签到记录</text>
+    <text class="empty-desc">拍照签到后，记录将在这里显示</text>
+  </view>
+
+  <!-- ====== 有记录时 ====== -->
+  <view wx:else class="has-data">
+
+    <!-- 顶部统计栏 -->
+    <view class="summary-bar">
+      <view class="summary-item">
+        <text class="summary-num">{{historyList.length}}</text>
+        <text class="summary-label">总签到</text>
+      </view>
+      <view class="summary-divider"></view>
+      <view class="summary-item">
+        <text class="summary-num">{{totalCount}}</text>
+        <text class="summary-label">总人次</text>
+      </view>
+      <view class="summary-divider"></view>
+      <view class="summary-item">
+        <text class="summary-num" style="color: #F87272;">{{absentCount}}</text>
+        <text class="summary-label">总缺勤</text>
+      </view>
+    </view>
+
+    <!-- 操作栏 -->
+    <view class="toolbar">
+      <text class="toolbar-title">签到记录</text>
+      <button class="clear-all-btn" bindtap="clearAll">🗑 清空记录</button>
+    </view>
+
+    <!-- 记录列表 -->
+    <scroll-view scroll-y class="record-scroll">
+      <view wx:for="{{historyList}}" wx:key="time" class="record-card fade-in">
+        <view class="record-top">
+          <view class="record-left">
+            <text class="record-time-icon">🕐</text>
+            <text class="record-time">{{item.time}}</text>
+          </view>
+          <button class="delete-btn" bindtap="deleteItem" data-t="{{item.time}}" hover-class="delete-hover">删除</button>
+        </view>
+
+        <view class="record-stats">
+          <view class="tag tag-total">
+            <text>应到 {{item.total}}人</text>
+          </view>
+          <view class="tag tag-actual">
+            <text>实到 {{item.actual}}人</text>
+          </view>
+          <view class="tag tag-absent">
+            <text>缺勤 {{item.absent}}人</text>
+          </view>
+        </view>
+
+        <view wx:if="{{item.img}}" class="record-image-wrap" bindtap="previewHistoryImage" data-img="{{item.img}}">
+          <image src="{{item.img}}" mode="aspectFill" class="record-image"></image>
+          <view class="image-overlay">
+            <text class="image-overlay-text">点击查看大图</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+
+  </view>
+</view>

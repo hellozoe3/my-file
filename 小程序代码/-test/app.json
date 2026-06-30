@@ -1,0 +1,34 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/history/history",
+    "pages/logs/logs"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#165DFF",
+    "navigationBarTitleText": "课堂AI签到",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F2F4F7"
+  },
+  "tabBar": {
+    "color": "#8F959E",
+    "selectedColor": "#165DFF",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "签到"
+      },
+      {
+        "pagePath": "pages/history/history",
+        "text": "记录"
+      }
+    ]
+  },
+  "style": "v2",
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

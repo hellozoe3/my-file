@@ -1,0 +1,93 @@
+<view class="page safe-bottom">
+  <!-- ====== 顶部渐变头 ====== -->
+  <view class="hero">
+    <view class="hero-content">
+      <text class="hero-icon">📋</text>
+      <text class="hero-title">AI 智能签到</text>
+      <text class="hero-sub">拍照上传 · 一键清点人数</text>
+    </view>
+    <view class="hero-wave"></view>
+  </view>
+
+  <view class="main-content">
+
+    <!-- ====== 班级人数输入卡 ====== -->
+    <view class="card input-card">
+      <view class="card-header">
+        <text class="card-icon-label">👥</text>
+        <text class="card-title">班级应到总人数</text>
+      </view>
+      <view class="input-wrap">
+        <input class="num-input" type="number" bindinput="inputTotal" value="{{totalNum}}" placeholder="请输入班级人数" maxlength="3" />
+        <text class="input-unit">人</text>
+      </view>
+    </view>
+
+    <!-- ====== 操作按钮 ====== -->
+    <view class="button-area">
+      <button class="action-btn photo-btn" bindtap="takePhoto" hover-class="btn-hover">
+        <text class="btn-icon">📸</text>
+        <view class="btn-text-wrap">
+          <text class="btn-text">现场拍照</text>
+          <text class="btn-desc">使用摄像头拍摄</text>
+        </view>
+      </button>
+      <button class="action-btn upload-btn" bindtap="uploadAlbum" hover-class="btn-hover">
+        <text class="btn-icon">🖼</text>
+        <view class="btn-text-wrap">
+          <text class="btn-text">相册上传</text>
+          <text class="btn-desc">从手机相册选择</text>
+        </view>
+      </button>
+    </view>
+
+    <!-- ====== 识别结果 ====== -->
+    <view wx:if="{{showResult}}" class="result-section fade-in">
+      
+      <!-- 人员统计卡片 -->
+      <view class="card result-card {{resultSuccess ? 'success' : 'error'}}">
+        <view class="result-status-bar">
+          <text wx:if="{{resultSuccess}}" class="status-badge success-badge">✓ 签到成功</text>
+          <text wx:else class="status-badge error-badge">✗ 识别失败</text>
+        </view>
+        <view class="stats-row">
+          <view class="stat-item">
+            <text class="stat-num total">{{totalNum}}</text>
+            <text class="stat-label">应到</text>
+          </view>
+          <view class="stat-divider"></view>
+          <view class="stat-item">
+            <text class="stat-num actual">{{actualNum}}</text>
+            <text class="stat-label">实到</text>
+          </view>
+          <view class="stat-divider"></view>
+          <view class="stat-item">
+            <text class="stat-num absent">{{absentNum}}</text>
+            <text class="stat-label">缺勤</text>
+          </view>
+        </view>
+        <!-- 到勤率进度条（修复分母为0非法样式值问题） -->
+        <view wx:if="{{resultSuccess}}" class="progress-wrap">
+          <view class="progress-bar">
+            <view class="progress-fill" style="{{totalNum > 0 ? 'width: ' + (actualNum / totalNum * 100) + '%;' : 'width:0%;'}}"></view>
+          </view>
+          <text class="progress-label">{{percentStr}}%</text>
+        </view>
+      </view>
+
+      <!-- 识别图片与操作区 -->
+      <view class="card image-card" wx:if="{{resultImg}}">
+        <view class="image-header">
+          <text class="image-title">📷 AI 识别照片</text>
+          <text class="preview-tip" bindtap="previewImage">查看大图 ›</text>
+        </view>
+        <image src="{{resultImg}}" mode="aspectFit" class="result-image" bindtap="previewImage"></image>
+        <view class="image-actions">
+          <button class="ghost-btn retry-btn" bindtap="retryRecognition">🔄 重新识别</button>
+        </view>
+      </view>
+
+    </view>
+
+  </view>
+</view>
